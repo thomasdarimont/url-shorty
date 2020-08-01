@@ -1,0 +1,15 @@
+
+### Get all Urls
+GET http://localhost:8080/api/urls
+
+### Shrink new url
+POST http://localhost:8080/api/urls
+Content-Type: application/x-www-form-urlencoded
+
+fullUrl=http://example.com
+
+### Find URL by ShortId
+GET http://localhost:8080/api/urls/da5f6dab
+
+### Find URL by ShortId with no result
+GET http://localhost:8080/api/urls/notfound

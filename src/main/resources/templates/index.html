@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>URL-Shorty</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <h1>URL Shorty</h1>
+
+    <form action="/shrink" method="post" class="my-4 form-inline">
+        <label for="fullUrl" class="sr-only">Url</label>
+        <input type="url" id="fullUrl" name="fullUrl" placeholder="Enter URL here..." class="form-control col mr-2">
+        <button type="submit" class="btn btn-success">Shrink</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Full Url</th>
+            <th>Short Url</th>
+            <th>Clicks</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="url : ${urls}">
+            <td><a th:href="${url.fullUrl}" th:text="${url.fullUrl}">https://example.com</a></td>
+            <td><a th:href="${'/'+url.shortId}" th:text="${url.shortId}">1234</a></td>
+            <td th:text="${url.clicks}">10</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
