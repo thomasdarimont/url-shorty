@@ -31,7 +31,7 @@ public class ShortyService {
                 .findFirst();
     }
 
-    public void deleteLink(String shortId) {
-        URLS.removeIf(s -> s.getShortId().equals(shortId));
+    public boolean deleteLink(String shortId) {
+        return URLS.removeIf(s -> s.getShortId().equals(shortId));
     }
 }
