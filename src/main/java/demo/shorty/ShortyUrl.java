@@ -8,7 +8,7 @@ public class ShortyUrl {
     private final String shortId;
     private final String fullUrl;
     private final AtomicLong clicks = new AtomicLong();
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 
     public ShortyUrl(String shortId, String fullUrl, LocalDateTime createdAt) {
         this.shortId = shortId;

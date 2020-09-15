@@ -1,9 +1,13 @@
 package demo.shorty.api;
 
 import demo.shorty.ShortyUrl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import demo.shorty.ShortyService;
+
+import java.util.Optional;
 
 @RestController
 class ShortyApiController {
@@ -37,5 +41,16 @@ class ShortyApiController {
     @GetMapping("/api/urls/{shortId}")
     ResponseEntity<?> find(@PathVariable String shortId) {
         return ResponseEntity.of(service.findById(shortId));
+    }
+
+    @GetMapping("/api/urls/{shortId}/redirect")
+    ResponseEntity<?> redirect(@PathVariable String shortId) {
+        Optional<ShortyUrl> maybeShortUrl = service.findById(shortId);
+        return ResponseEntity.of(maybeShortUrl.map(shortUrl -> {
+            return ResponseEntity
+                    .status(HttpStatus.TEMPORARY_REDIRECT)
+                    .header(HttpHeaders.LOCATION, shortUrl.getFullUrl())
+                    .build();
+        }));
     }
 }
