@@ -9,7 +9,6 @@
 </head>
 
 <script>
-
     function deleteLink(shortId) {
         fetch(shortId, {
             method: 'delete'
@@ -61,6 +60,7 @@
             <td>#</td>
             <th>Full URL</th>
             <th>Short URL</th>
+            <th>Created</th>
             <th>Clicks</th>
             <th>...</th>
         </tr>
@@ -70,6 +70,7 @@
             <td th:text="${urlIndex.index + 1}">0</td>
             <td><a th:href="${url.fullUrl}" th:text="${url.fullUrl}">https://example.com</a></td>
             <td><a th:href="${url.shortId}" th:text="${url.shortId}">1234</a></td>
+            <td th:text="${#temporals.format(url.createdAt, 'dd.MM.yyyy HH:mm:ss')}">16.09.2020 01:00:25</td>
             <td th:text="${url.clicks}">42</td>
             <td>
                 <button th:attr="data-action='delete', data-shortid=${url.shortId}" class="btn btn-secondary btn-sm">

@@ -2,6 +2,7 @@ package demo.shorty;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ShortyService {
 
     public ShortyUrl shorten(String fullUrl) {
         String shortId = Integer.toHexString(fullUrl.hashCode() ^ Double.hashCode(ThreadLocalRandom.current().nextDouble()));
-        ShortyUrl shortyUrl = new ShortyUrl(shortId, fullUrl);
+        ShortyUrl shortyUrl = new ShortyUrl(shortId, fullUrl, LocalDateTime.now());
         URLS.add(shortyUrl);
         return shortyUrl;
     }
