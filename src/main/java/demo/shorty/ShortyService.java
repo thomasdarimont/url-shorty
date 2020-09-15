@@ -17,7 +17,7 @@ public class ShortyService {
         return Collections.unmodifiableList(URLS);
     }
 
-    public ShortyUrl shrink(String fullUrl) {
+    public ShortyUrl shorten(String fullUrl) {
         String shortId = Integer.toHexString(fullUrl.hashCode() ^ Double.hashCode(ThreadLocalRandom.current().nextDouble()));
         ShortyUrl shortyUrl = new ShortyUrl(shortId, fullUrl);
         URLS.add(shortyUrl);
@@ -29,5 +29,9 @@ public class ShortyService {
                 .stream()
                 .filter(shortyUrl -> shortId.equals(shortyUrl.getShortId()))
                 .findFirst();
+    }
+
+    public void deleteLink(String shortId) {
+        URLS.removeIf(s -> s.getShortId().equals(shortId));
     }
 }

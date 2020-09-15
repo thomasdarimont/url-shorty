@@ -25,7 +25,7 @@ class ShortyApiController {
 
     @PostMapping("/api/urls")
     ShortyUrl shrink(@RequestParam String fullUrl) {
-        return service.shrink(fullUrl);
+        return service.shorten(fullUrl);
     }
 
     @GetMapping("/api/urls/{shortId}")
