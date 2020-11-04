@@ -20,13 +20,13 @@ class ShortyWebController {
     }
 
     @GetMapping("/")
-    String index(Model model) {
+    public String index(Model model) {
         model.addAttribute("urls", service.findAll());
         return "index";
     }
 
     @PostMapping("/shorten")
-    String shorten(@RequestParam String fullUrl) {
+    public String shorten(@RequestParam String fullUrl) {
 
         if (!StringUtils.isEmpty(fullUrl)) {
             service.shorten(fullUrl);
@@ -36,11 +36,12 @@ class ShortyWebController {
     }
 
     @GetMapping("/{shortId}")
-    RedirectView find(@PathVariable String shortId) {
+    public RedirectView find(@PathVariable String shortId) {
 
         Optional<ShortyUrl> candidate = service.findById(shortId);
 
-        return candidate.map(this::redirectToUrl).orElseGet(this::redirectToNotFound);
+        return candidate.map(this::redirectToUrl)
+                .orElseGet(this::redirectToNotFound);
     }
 
     @DeleteMapping("/{shortId}")

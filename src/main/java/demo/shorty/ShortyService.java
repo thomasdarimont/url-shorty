@@ -19,10 +19,14 @@ public class ShortyService {
     }
 
     public ShortyUrl shorten(String fullUrl) {
-        String shortId = Integer.toHexString(fullUrl.hashCode() ^ Double.hashCode(ThreadLocalRandom.current().nextDouble()));
+        String shortId = createShortId(fullUrl);
         ShortyUrl shortyUrl = new ShortyUrl(shortId, fullUrl, LocalDateTime.now());
         URLS.add(shortyUrl);
         return shortyUrl;
+    }
+
+    private String createShortId(String fullUrl) {
+        return Integer.toHexString(fullUrl.hashCode() ^ Double.hashCode(ThreadLocalRandom.current().nextDouble()));
     }
 
     public Optional<ShortyUrl> findById(String shortId) {

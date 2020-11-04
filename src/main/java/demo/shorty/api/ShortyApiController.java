@@ -19,17 +19,17 @@ class ShortyApiController {
     }
 
     @GetMapping("/api/urls")
-    Object findAll() {
+    public Object findAll() {
         return service.findAll();
     }
 
     @PostMapping("/api/urls")
-    ShortyUrl shorten(@RequestParam String fullUrl) {
+    public ShortyUrl shorten(@RequestParam String fullUrl) {
         return service.shorten(fullUrl);
     }
 
     @DeleteMapping("/api/urls/{shortId}")
-    ResponseEntity<Void> delete(@PathVariable String shortId) {
+    public ResponseEntity<Void> delete(@PathVariable String shortId) {
 
         boolean deleted = service.deleteLink(shortId);
         if (deleted) {
@@ -39,12 +39,12 @@ class ShortyApiController {
     }
 
     @GetMapping("/api/urls/{shortId}")
-    ResponseEntity<?> find(@PathVariable String shortId) {
+    public ResponseEntity<?> find(@PathVariable String shortId) {
         return ResponseEntity.of(service.findById(shortId));
     }
 
     @GetMapping("/api/urls/{shortId}/redirect")
-    ResponseEntity<?> redirect(@PathVariable String shortId) {
+    public ResponseEntity<?> redirect(@PathVariable String shortId) {
         Optional<ShortyUrl> maybeShortUrl = service.findById(shortId);
         return ResponseEntity.of(maybeShortUrl.map(shortUrl -> {
             return ResponseEntity

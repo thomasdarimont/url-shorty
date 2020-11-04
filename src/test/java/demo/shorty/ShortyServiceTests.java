@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-class ShortyAppTests {
+class ShortyServiceTests {
 
     @Autowired
     ShortyService shortyService;
