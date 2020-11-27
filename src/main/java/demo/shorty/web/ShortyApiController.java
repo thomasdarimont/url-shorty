@@ -1,11 +1,11 @@
-package demo.shorty.api;
+package demo.shorty.web;
 
-import demo.shorty.ShortyUrl;
+import demo.shorty.service.ShortyService;
+import demo.shorty.model.ShortyUrl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import demo.shorty.ShortyService;
 
 import java.util.Optional;
 

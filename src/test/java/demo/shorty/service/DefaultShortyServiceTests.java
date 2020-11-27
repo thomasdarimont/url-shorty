@@ -1,19 +1,20 @@
-package demo.shorty;
+package demo.shorty.service;
 
-import static org.assertj.core.api.Assertions.*;
-
+import demo.shorty.model.ShortyUrl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class ShortyServiceTests {
+class DefaultShortyServiceTests {
 
     @Autowired
-    ShortyService shortyService;
+    DefaultShortyService shortyService;
 
     @Test
     void thereShouldBeNoUrlsOnStart() {
@@ -24,8 +25,9 @@ class ShortyServiceTests {
     void createAndFindAll() {
 
         ShortyUrl shortUrl = shortyService.shorten("https://google.de");
+        assertThat(shortUrl).isNotNull();
 
-        List<ShortyUrl> urls = shortyService.findAll();
+        Set<ShortyUrl> urls = shortyService.findAll();
         assertThat(urls).isNotEmpty();
         assertThat(urls).hasSize(1);
     }

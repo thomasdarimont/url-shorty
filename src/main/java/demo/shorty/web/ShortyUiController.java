@@ -1,21 +1,22 @@
 package demo.shorty.web;
 
+import demo.shorty.service.ShortyService;
+import demo.shorty.model.ShortyUrl;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-import demo.shorty.ShortyUrl;
-import demo.shorty.ShortyService;
 
 import java.util.Optional;
 
 @Controller
-class ShortyWebController {
+class ShortyUiController {
 
     private final ShortyService service;
 
-    public ShortyWebController(ShortyService service) {
+    public ShortyUiController(ShortyService service) {
         this.service = service;
     }
 
@@ -45,11 +46,13 @@ class ShortyWebController {
     }
 
     @DeleteMapping("/{shortId}")
-    public String delete(@PathVariable String shortId) {
+    public RedirectView delete(@PathVariable String shortId) {
 
         service.deleteLink(shortId);
 
-        return "redirect:/";
+        RedirectView redirect = new RedirectView("/", true);
+        redirect.setStatusCode(HttpStatus.SEE_OTHER);
+        return redirect;
     }
 
     private RedirectView redirectToNotFound() {
