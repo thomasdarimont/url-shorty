@@ -1,6 +1,6 @@
 package demo.shorty.service;
 
-import demo.shorty.model.ShortyUrl;
+import demo.shorty.model.ShortUrl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +11,10 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class DefaultShortyServiceTests {
+class DefaultShortUrlServiceTests {
 
     @Autowired
-    DefaultShortyService shortyService;
+    DefaultShortUrlService shortyService;
 
     @Test
     void thereShouldBeNoUrlsOnStart() {
@@ -24,10 +24,10 @@ class DefaultShortyServiceTests {
     @Test
     void createAndFindAll() {
 
-        ShortyUrl shortUrl = shortyService.shorten("https://google.de");
+        ShortUrl shortUrl = shortyService.create("https://google.de");
         assertThat(shortUrl).isNotNull();
 
-        Set<ShortyUrl> urls = shortyService.findAll();
+        Set<ShortUrl> urls = shortyService.findAll();
         assertThat(urls).isNotEmpty();
         assertThat(urls).hasSize(1);
     }
@@ -35,9 +35,9 @@ class DefaultShortyServiceTests {
     @Test
     void createAndFindOne() {
 
-        ShortyUrl shortUrl = shortyService.shorten("https://google.de");
+        ShortUrl shortUrl = shortyService.create("https://google.de");
 
-        Optional<ShortyUrl> found = shortyService.findById(shortUrl.getShortId());
+        Optional<ShortUrl> found = shortyService.findById(shortUrl.getShortId());
 
         assertThat(found).isNotEmpty();
         assertThat(found).contains(shortUrl);
@@ -46,11 +46,11 @@ class DefaultShortyServiceTests {
     @Test
     void createAndDeleteOne() {
 
-        ShortyUrl shortUrl = shortyService.shorten("https://google.de");
+        ShortUrl shortUrl = shortyService.create("https://google.de");
 
-        shortyService.deleteLink(shortUrl.getShortId());
+        shortyService.deleteById(shortUrl.getShortId());
 
-        Optional<ShortyUrl> found = shortyService.findById(shortUrl.getShortId());
+        Optional<ShortUrl> found = shortyService.findById(shortUrl.getShortId());
         assertThat(found).isEmpty();
     }
 }

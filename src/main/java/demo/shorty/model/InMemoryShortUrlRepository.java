@@ -8,23 +8,23 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-class InMemoryShortyUrlRepository implements ShortyUrlRepository {
+class InMemoryShortUrlRepository implements ShortUrlRepository {
 
-    private final Set<ShortyUrl> URLS = Collections.synchronizedSet(new LinkedHashSet<>());
+    private final Set<ShortUrl> URLS = Collections.synchronizedSet(new LinkedHashSet<>());
 
     @Override
-    public Set<ShortyUrl> findAll() {
+    public Set<ShortUrl> findAll() {
         return Collections.unmodifiableSet(URLS);
     }
 
     @Override
-    public ShortyUrl save(ShortyUrl shortyUrl) {
-        URLS.add(shortyUrl);
-        return shortyUrl;
+    public ShortUrl save(ShortUrl shortUrl) {
+        URLS.add(shortUrl);
+        return shortUrl;
     }
 
     @Override
-    public Optional<ShortyUrl> findById(String shortId) {
+    public Optional<ShortUrl> findById(String shortId) {
         return URLS.stream()
                 .filter(shortyUrl -> shortId.equals(shortyUrl.getShortId()))
                 .findFirst();

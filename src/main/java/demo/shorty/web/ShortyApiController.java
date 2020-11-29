@@ -1,7 +1,9 @@
 package demo.shorty.web;
 
-import demo.shorty.service.ShortyService;
-import demo.shorty.model.ShortyUrl;
+import demo.shorty.service.ShortUrlService;
+import demo.shorty.model.ShortUrl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,42 +12,60 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/urls")
 class ShortyApiController {
 
-    private final ShortyService service;
+    private static final Logger LOG = LoggerFactory.getLogger(ShortyMvcController.class);
 
-    public ShortyApiController(ShortyService service) {
+    private final ShortUrlService service;
+
+    public ShortyApiController(ShortUrlService service) {
         this.service = service;
     }
 
-    @GetMapping("/api/urls")
+    @GetMapping
     public Object findAll() {
+
+        LOG.info("find all shorturls");
+
         return service.findAll();
     }
 
-    @PostMapping("/api/urls")
-    public ShortyUrl shorten(@RequestParam String fullUrl) {
-        return service.shorten(fullUrl);
+    @PostMapping
+    public ShortUrl newShortUrl(@RequestParam String fullUrl) {
+
+        LOG.info("create new shorturl");
+
+        return service.create(fullUrl);
     }
 
-    @DeleteMapping("/api/urls/{shortId}")
-    public ResponseEntity<Void> delete(@PathVariable String shortId) {
+    @DeleteMapping("/{shortId}")
+    public ResponseEntity<Void> deleteById(@PathVariable String shortId) {
 
-        boolean deleted = service.deleteLink(shortId);
+        LOG.info("try to delete shorturl by id");
+
+        boolean deleted = service.deleteById(shortId);
         if (deleted) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/api/urls/{shortId}")
-    public ResponseEntity<?> find(@PathVariable String shortId) {
+    @GetMapping("/{shortId}")
+    public ResponseEntity<?> findById(@PathVariable String shortId) {
+
+        LOG.info("try to find shorturl by id");
+
         return ResponseEntity.of(service.findById(shortId));
     }
 
-    @GetMapping("/api/urls/{shortId}/redirect")
-    public ResponseEntity<?> redirect(@PathVariable String shortId) {
-        Optional<ShortyUrl> maybeShortUrl = service.findById(shortId);
+    @GetMapping("/{shortId}/redirect")
+    public ResponseEntity<?> resolveRedirect(@PathVariable String shortId) {
+
+        LOG.info("try to redirect to shorturl by id");
+
+        Optional<ShortUrl> maybeShortUrl = service.findById(shortId);
+
         return ResponseEntity.of(maybeShortUrl.map(shortUrl -> {
             return ResponseEntity
                     .status(HttpStatus.TEMPORARY_REDIRECT)

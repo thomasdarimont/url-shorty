@@ -4,53 +4,19 @@
     <meta charset="UTF-8">
     <title>URL-Shorty</title>
 
+    <link rel="icon" href="data:,"> <!-- disable favicon requests -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <script>
-        function deleteLink(shortId) {
-            fetch(shortId, {
-                method: 'delete'
-            }).then(function (response) {
-                window.location.reload();
-            });
-        }
+    <script src="js/shorty.js"></script>
 
-        function handleClick(event) {
-
-            if (event.target.tagName !== "BUTTON") {
-                // ignore clicks on other elements
-                return;
-            }
-
-            // inspect action data attribute on the button we clicked on
-            let targetDataset = event.target.dataset;
-
-            let action = targetDataset.action;
-            if (action === "delete") {
-                // inspect shortId data attribute tr element tr>td>button
-                let shortId = targetDataset.shortid;
-                deleteLink(shortId);
-            }
-            return false;
-        }
-
-        // add click handler to links table element once the html content is fully loaded
-        document.addEventListener('DOMContentLoaded', event => {
-            let linksTable = document.getElementById("links");
-            if (linksTable) {
-                linksTable.addEventListener("click", handleClick);
-            }
-        });
-
-    </script>
 </head>
 <body>
 
 <div class="container">
     <h1>URL Shorty</h1>
 
-    <form action="/shorten" method="post" class="my-4 form-inline">
+    <form th:action="@{/urls/shorten}" method="post" class="my-4 form-inline">
         <label for="fullUrl" class="sr-only">Url</label>
         <input type="url" id="fullUrl" name="fullUrl" placeholder="Enter URL here..." class="form-control col mr-2"
                required>
@@ -76,8 +42,9 @@
         <tbody>
         <tr th:each="url, urlIndex : ${urls}">
             <td th:text="${urlIndex.index + 1}">0</td>
-            <td><a th:href="${url.fullUrl}" th:text="${url.fullUrl}" target="_blank">https://example.com</a></td>
-            <td><a th:href="${url.shortId}" th:text="${url.shortId}" target="_blank">1234</a></td>
+            <td><a th:href="${url.fullUrl}" th:text="${url.fullUrl}" target="_blank" rel="noreferrer">https://example.com</a></td>
+            <td><a th:href="|/urls/${url.shortId}|" th:text="${url.shortId}" target="_blank" rel="noreferrer">1234</a>
+            </td>
             <td th:text="${#temporals.format(url.createdAt, 'dd.MM.yyyy HH:mm:ss')}">16.09.2020 01:00:25</td>
             <td th:text="${#temporals.format(url.lastAccessedAt, 'dd.MM.yyyy HH:mm:ss')}">16.09.2020 01:00:25</td>
             <td th:text="${url.clicks}">42</td>

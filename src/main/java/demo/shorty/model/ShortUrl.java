@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ShortyUrl {
+public class ShortUrl {
 
     private final String shortId;
 
@@ -17,7 +17,7 @@ public class ShortyUrl {
 
     private final AtomicReference<LocalDateTime> lastAccessedAt;
 
-    public ShortyUrl(String shortId, String fullUrl, LocalDateTime createdAt) {
+    public ShortUrl(String shortId, String fullUrl, LocalDateTime createdAt) {
         this.shortId = shortId;
         this.fullUrl = fullUrl;
         this.createdAt = createdAt;
@@ -44,7 +44,7 @@ public class ShortyUrl {
         return lastAccessedAt.get();
     }
 
-    public ShortyUrl clicked() {
+    public ShortUrl clicked() {
         clicks.incrementAndGet();
         lastAccessedAt.lazySet(LocalDateTime.now());
         return this;
@@ -58,8 +58,8 @@ public class ShortyUrl {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ShortyUrl shortyUrl = (ShortyUrl) o;
-        return shortId.equals(shortyUrl.shortId);
+        ShortUrl shortUrl = (ShortUrl) o;
+        return shortId.equals(shortUrl.shortId);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ShortyUrl {
 
     @Override
     public String toString() {
-        return "ShortyUrl{" +
+        return "ShortUrl{" +
                 "shortId='" + shortId + '\'' +
                 ", fullUrl='" + fullUrl + '\'' +
                 ", clicks=" + clicks +
