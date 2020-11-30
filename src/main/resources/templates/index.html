@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="/css/shorty.css">
 
-    <script src="/js/shorty.js"></script>
+<!--    <script src="/js/shorty.js"></script>-->
 
 </head>
 <body>
@@ -58,11 +58,23 @@
             <td th:text="${#temporals.format(url.lastAccessedAt, 'dd.MM.yyyy HH:mm:ss')}">16.09.2020 01:00:25</td>
             <td th:text="${url.clicks}">42</td>
             <td>
+                <form th:action="|/urls/${url.shortId}|" method="post">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button class="btn btn-secondary btn-sm" title="delete">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+
+            <!-- Example for using html5 fetch to delete an entry-->
+            <!--
+            <td>
                 <button th:attr="data-action='delete', data-shortid=${url.shortId}" class="btn btn-secondary btn-sm"
                         title="delete">
                     <i class="fa fa-trash"></i>
                 </button>
             </td>
+            -->
         </tr>
         </tbody>
     </table>

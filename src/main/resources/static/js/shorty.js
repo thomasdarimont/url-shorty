@@ -31,7 +31,7 @@ function handleClick(event) {
 }
 
 function deleteLink(shortId) {
-    let path = "/urls/" + shortId;
+    let path = "/api/urls/" + shortId;
     fetch(path, {
         method: 'delete'
     }).then(function (response) {

@@ -8,7 +8,11 @@ import org.springframework.boot.info.GitProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
@@ -71,12 +75,16 @@ class ShortyMvcController {
     }
 
     @DeleteMapping("/urls/{shortId}")
-    @ResponseBody
-    public void delete(@PathVariable String shortId) {
+    public RedirectView delete(@PathVariable String shortId) {
 
         LOG.info("try to delete shorturl by id");
 
         service.deleteById(shortId);
+
+        // Send a HTTP 303 See Other redirect -> this allows the browser to change the HTTP method to Get
+        RedirectView redirect = new RedirectView("/urls", true);
+        redirect.setHttp10Compatible(false);
+        return redirect;
     }
 
     private RedirectView redirectToNotFound() {
