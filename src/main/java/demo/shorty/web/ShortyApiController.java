@@ -1,7 +1,7 @@
 package demo.shorty.web;
 
-import demo.shorty.service.ShortUrlService;
 import demo.shorty.model.ShortUrl;
+import demo.shorty.service.ShortUrlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

@@ -1,6 +1,9 @@
 // add click handler to links table element once the html content is fully loaded
 document.addEventListener('DOMContentLoaded', event => {
+
     let linksTable = document.getElementById("links");
+
+    // only add eventListener to links table element to safe memory
     if (linksTable) {
         linksTable.addEventListener("click", handleClick);
     }

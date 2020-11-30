@@ -4,6 +4,7 @@ import demo.shorty.model.ShortUrl;
 import demo.shorty.service.ShortUrlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.info.GitProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,8 +20,11 @@ class ShortyMvcController {
 
     private final ShortUrlService service;
 
-    public ShortyMvcController(ShortUrlService service) {
+    private final GitProperties gitInfo;
+
+    public ShortyMvcController(ShortUrlService service, GitProperties gitInfo) {
         this.service = service;
+        this.gitInfo = gitInfo;
     }
 
     @GetMapping({"/", "/urls"})
@@ -30,6 +34,17 @@ class ShortyMvcController {
 
         model.addAttribute("urls", service.findAll());
         return "index";
+    }
+
+    @GetMapping({"/about"})
+    public String about(Model model) {
+
+        LOG.info("show about page");
+
+        model.addAttribute("version", gitInfo.get("build.version"));
+        model.addAttribute("shortCommitId", gitInfo.getShortCommitId());
+
+        return "about";
     }
 
     @PostMapping("/urls/shorten")
