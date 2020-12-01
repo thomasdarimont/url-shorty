@@ -35,7 +35,11 @@ class DefaultShortUrlService implements ShortUrlService {
 
     @Override
     public Optional<ShortUrl> findById(String shortId) {
-        return repository.findById(shortId);
+        return repository.findById(shortId).map(this::incrementClickCounter);
+    }
+
+    private ShortUrl incrementClickCounter(ShortUrl shortUrl) {
+        return shortUrl.clicked();
     }
 
     @Override

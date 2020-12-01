@@ -7,6 +7,9 @@ import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Default {@link ShortUrlRepository} implemenation that stores {@link ShortUrl ShortUrls} in memory.
+ */
 @Repository
 class InMemoryShortUrlRepository implements ShortUrlRepository {
 

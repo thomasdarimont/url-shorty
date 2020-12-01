@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * A Spring REST MVC Controller that exposes a Web API for managing {@link ShortUrl ShortUrls}.
+ */
 @RestController
 @RequestMapping("/api/urls")
-class ShortyApiController {
+class ShortUrlApiController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ShortyMvcController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShortUrlMvcController.class);
 
     private final ShortUrlService service;
 
-    public ShortyApiController(ShortUrlService service) {
+    public ShortUrlApiController(ShortUrlService service) {
         this.service = service;
     }
 

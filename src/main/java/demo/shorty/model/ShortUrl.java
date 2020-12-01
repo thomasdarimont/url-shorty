@@ -5,22 +5,41 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * A {@link ShortUrl} with some metadata.
+ */
 public class ShortUrl {
 
+    /**
+     * Holds the generated shortId
+     */
     private final String shortId;
 
+    /**
+     * Holds the full URL
+     */
     private final String fullUrl;
 
-    private final AtomicLong clicks = new AtomicLong();
+    /**
+     * Holds the total number of clicks for this URL
+     */
+    private final AtomicLong clicks;
 
+    /**
+     * Holds the timestamp of creation
+     */
     private final LocalDateTime createdAt;
 
+    /**
+     * Holds the timestamp of last access.
+     */
     private final AtomicReference<LocalDateTime> lastAccessedAt;
 
     public ShortUrl(String shortId, String fullUrl, LocalDateTime createdAt) {
         this.shortId = shortId;
         this.fullUrl = fullUrl;
         this.createdAt = createdAt;
+        this.clicks =  new AtomicLong();
         this.lastAccessedAt = new AtomicReference<>(createdAt);
     }
 

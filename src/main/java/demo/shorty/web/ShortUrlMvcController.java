@@ -17,16 +17,19 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
+/**
+ * A Spring Web MVC Controller controls the page flow of the URL Shorter Web UI.
+ */
 @Controller
-class ShortyMvcController {
+class ShortUrlMvcController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ShortyMvcController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ShortUrlMvcController.class);
 
     private final ShortUrlService service;
 
     private final GitProperties gitInfo;
 
-    public ShortyMvcController(ShortUrlService service, GitProperties gitInfo) {
+    public ShortUrlMvcController(ShortUrlService service, GitProperties gitInfo) {
         this.service = service;
         this.gitInfo = gitInfo;
     }
@@ -38,17 +41,6 @@ class ShortyMvcController {
 
         model.addAttribute("urls", service.findAll());
         return "index";
-    }
-
-    @GetMapping({"/about"})
-    public String about(Model model) {
-
-        LOG.info("show about page");
-
-        model.addAttribute("version", gitInfo.get("build.version"));
-        model.addAttribute("shortCommitId", gitInfo.getShortCommitId());
-
-        return "about";
     }
 
     @PostMapping("/urls/shorten")
@@ -74,6 +66,14 @@ class ShortyMvcController {
                 .orElseGet(this::redirectToNotFound);
     }
 
+    private RedirectView redirectToUrl(ShortUrl shortUrl) {
+        return new RedirectView(shortUrl.getFullUrl());
+    }
+
+    private RedirectView redirectToNotFound() {
+        return new RedirectView("/error/404");
+    }
+
     @DeleteMapping("/urls/{shortId}")
     public RedirectView delete(@PathVariable String shortId) {
 
@@ -87,12 +87,15 @@ class ShortyMvcController {
         return redirect;
     }
 
-    private RedirectView redirectToNotFound() {
-        return new RedirectView("/error/404");
-    }
 
-    private RedirectView redirectToUrl(ShortUrl shortUrl) {
-        return new RedirectView(shortUrl.clicked().getFullUrl());
-    }
+    @GetMapping({"/about"})
+    public String about(Model model) {
 
+        LOG.info("show about page");
+
+        model.addAttribute("version", gitInfo.get("build.version"));
+        model.addAttribute("shortCommitId", gitInfo.getShortCommitId());
+
+        return "about";
+    }
 }
